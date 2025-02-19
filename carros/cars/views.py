@@ -4,7 +4,11 @@ from cars.models import Car
 # Create your views here.
 
 def cars(request):
-    carro = Car.objects.filter(factory_year__gte=2009)
+    carro = Car.objects.all()
+    search = request.GET.get('search')
+
+    if search:
+        carro = carro.filter(model__contains = search)
 
     return render(
         request, 
