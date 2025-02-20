@@ -1,35 +1,120 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carros Disponíveis</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  {% block content %}
-  <body>
-    <header>
-      <h1>Carros Disponíveis</h1>
-      <nav>
-        <ul>
-          <li><a href="#">Lista de Carros</a></li>
-          <li><a href="#">Cadastrar Carro</a></li>
-          <li><a href="#">Buscar Carro</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <section>
-        <h2>Todos os Carros</h2>
-        <p>Aqui você encontrará uma lista de todos os carros disponíveis em nosso sistema.</p>
-        {% for carros in cars %}
-        <h4>{{carros.brand}} - {{carros.model}} - {{carros.factory_year}} - R${{carros.value}} </h4>
-        {% endfor %}
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2023 Sistema de Carros</p>
-    </footer>
-  </body>
-  {% endblock %}
-</html>
+{% block content %}
+  <style>
+  /* Global Styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+
+  /* Header Styles */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+  }
+
+  header h1 {
+    margin: 0;
+  }
+
+  /* Form Styles */
+  form {
+    display: flex;
+    justify-content: center;
+    margin: 2em 0;
+  }
+
+  input[type="text"] {
+    width: 50%;
+    height: 2em;
+    padding: 1em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+  }
+
+  button[type="submit"] {
+    width: 10%;
+    height: 2em;
+    padding: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #555;
+  }
+
+  /* Car Grid Styles */
+  .car_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+    padding: 2em;
+  }
+
+  .car_card {
+    background-color: #fff;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .car_card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .car_card h2 {
+    margin: 0;
+    padding: 1em 0;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .car_card p {
+    margin: 0;
+    padding: 1em 0;
+    font-size: 1em;
+    color: #666;
+  }
+
+  /* No Results Styles */
+  .no-results {
+    text-align: center;
+    padding: 2em;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #666;
+  }
+</style>
+
+<form method="GET" action="{% url 'cars_list' %}">
+  <input type="text" name="search" placeholder="Buscar Carro">
+  <button type="submit">Buscar</button>
+</form>
+
+<div class="car_grid">
+  {% if cars %}
+    {% for car in cars %}
+      <div class="car_card">
+        <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
+        <h2>{{ car.model }} - {{ car.brand }}</h2>
+        <p>{{ car.factory_year }} - {{ car.value }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-results">Nenhum carro encontrado.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -22,5 +22,5 @@ from cars.views import cars
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cars', cars, name='cars'),
+    path('cars/', cars, name='cars_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

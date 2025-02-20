@@ -4,12 +4,12 @@ from cars.models import Car
 # Create your views here.
 
 def cars(request):
-    carro = Car.objects.all()
+    carro = Car.objects.all().order_by('model')
+
     search = request.GET.get('search')
 
     if search:
-        carro = carro.filter(model__contains = search)
-
+        carro = carro.filter(model__icontains = search)
     return render(
         request, 
         'cars.html',
