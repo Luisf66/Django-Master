@@ -2,7 +2,9 @@
 {% block content %}
 
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-        {{ new_car_form }}
-        <button type="submit">Salvar</button>
+        <table>
+            {{ new_car_form.as_table }}
+        </table>
+        <button type="submit" value="Cadastrar" class="btn btn-primary">Salvar Carro</button>
     </form>
 {% endblock %}
