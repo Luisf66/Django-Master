@@ -1,24 +1,19 @@
 from django import forms
-from cars.models import Brand, Car
+from cars.models import Car
+    
+class CarModelForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        fields = '__all__'
 
-class CarForm(forms.Form):
-    model = forms.CharField(max_length=100)
-    brand = forms.ModelChoiceField(Brand.objects.all())
-    factory_year = forms.IntegerField()
-    model_yaer = forms.IntegerField()
-    value = forms.FloatField()
-    plate = forms.CharField(max_length=10)
-    photo = forms.ImageField()
+    def clean_value(self):
+        value = self.cleaned_date.get('value')
+        if value < 20000:
+            self.add_error('value', 'O valor não pode ser menor que R$20.000')
+        return value
 
-    def save(self):
-        car = Car(
-            model = self.cleaned_data['model'],
-            brand = self.cleaned_data['brand'],
-            factory_year = self.cleaned_data['factory_year'],
-            model_yaer = self.cleaned_data['model_yaer'],
-            value = self.cleaned_data['value'],
-            plate = self.cleaned_data['plate'],
-            photo = self.cleaned_data['photo']
-        )
-        car.save()
-        return car
+    def clean_factory_year(self):
+        factory_year = self.cleaned_date.get('factory_year')
+        if factory_year < 1975:
+            self.add_error('factory_year', 'Não é possivel cadastrar um carro com ano de fabricação menor que 1975')
+        return factory_year
