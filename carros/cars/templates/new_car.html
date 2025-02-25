@@ -3,8 +3,8 @@
 
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         <table>
-            {{ new_car_form.as_table }}
+            {{ form.as_table }}
         </table>
-        <button type="submit" value="Cadastrar" class="btn btn-primary">Salvar Carro</button>
+        <input type="submit" value="Cadastrar" class="btn btn-primary">
     </form>
 {% endblock %}
