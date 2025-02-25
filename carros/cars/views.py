@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from cars.models import Car
 from cars.forms import CarModelForm
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 # Create your views here.
 
 class CarsListView(ListView):
@@ -21,3 +21,7 @@ class NewCarCreateView(CreateView):
     form_class = CarModelForm
     template_name = 'new_car.html'
     success_url = '/cars/'
+
+class CarDetail(DetailView):
+    model = Car
+    template_name = 'car_detail.html'
