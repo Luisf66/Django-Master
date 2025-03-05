@@ -126,8 +126,12 @@
     {% for car in cars %}
       <a href="{% url 'car_detail' car.pk %}">
         <div class="car_card">
-          <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
-          <h2>{{ car.model }} - {{ car.brand }}</h2>
+          {% if car.photo %}
+            <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
+          {% else %}
+            <p class="no-photo">Imagem indisponivel</p>
+          {% endif %}
+            <h2>{{ car.model }} - {{ car.brand }}</h2>
           <p>{{ car.factory_year }} - {{ car.value }}</p>
         </div>
     </a>
